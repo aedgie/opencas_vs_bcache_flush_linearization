@@ -7,7 +7,7 @@ I just want to share results of my comparing bcache vs OpenCAS in flushing optim
 
 **TLDR**: OpenCAS is better.
 
-We all know that most part of HDD latency is just waiting until required part of disk surface moves under heads. That's why random IOPS of ordinary HDD is about 60 (disk has to wait on average half of one revolution, which takes 7200rpm/60seconds/2 = 60 readwrites per second). Yes, internal cache and modern firmware allow to increase this number up to 100 and higher, but IOPS value order remains.
+We all know that most part of HDD latency is just waiting until required part of disk surface moves under heads. That's why random IOPS of ordinary HDD is about 100-200 (even disk with ideal heads has to wait on average half of one revolution, which gives 7200rpm/60seconds*2 = 240 readwrites per second). Internal cache and modern firmware can increase this number, but IOPS value order will remain.
 So I became curious: can SSD caching convert set of just written random sectors to something similar to sequential flow when dumping them to HDD? And if yes, how close to sequential write it would be. Because better merge decreases HDD load, keeps more space for read operations and therefore overall performance. Even if my new system survives high IO load spike I want it to stay alive further when cache flushes dirty blocks to free space for new data.
 
 My idea was to create very slow block device using "delay" target of device mapper (dm-delay), then use it as backing device like HDD and use RAM disk like SSD cache.
